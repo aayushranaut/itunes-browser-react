@@ -5,6 +5,7 @@ var React = require('react-native');
 var {
   Text,
   View,
+  ListView,
   TextInput,
   AlertIOS,
   ActivityIndicatorIOS,
@@ -52,9 +53,20 @@ var MediaListView = React.createClass({
     return {
       isLoading: false,
       query: '',
-
+      resultsData: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 != row2
+      }),
     };
   },
+
+  componentDidMount: function() {
+      this.searchMedia('mission impossible');
+  },
+
+  getDataSource: function(mediaItems: Array<any>): ListView.DataSource {
+    return this.state.resultsData.cloneWithRows(mediaItems);
+  },
+
   _urlForQuery: function(query: string): string {
     if(query.length > 3) {
       return API_URL + '?media=movie&term='+encodeURIComponent(query);
@@ -98,7 +110,8 @@ var MediaListView = React.createClass({
           resultsCache.dataForQuery[query] = undefined;
 
           this.setState({
-            isLoading: false
+            isLoading: false,
+            resultsData: this.getDataSource([])
           });
         })
         .then((responseData) => {
@@ -107,7 +120,7 @@ var MediaListView = React.createClass({
 
           this.setState({
             isLoading: false,
-            resultsData: resultsCache.dataForQuery[query]
+            resultsData: this.getDataSource(resultsCache.dataForQuery[query])
           });
         });
     }
@@ -125,12 +138,28 @@ var MediaListView = React.createClass({
           this.timeoutID = this.setTimeout(() => this.searchMedia(searchString), 1000);
         }}
       />
-        <Text>
-          YOLO
-        </Text>
+        <ListView
+          dataSource={this.state.resultsData}
+          renderRow={this.renderRow}
+          renderSeparator={this.renderSeparator}
+          automaticallyAdjustContentInsets={false}
+          keyboardDismissMode='on-drag'
+          />
       </View>
     );
-  }
+  },
+
+  renderSeparator: function (
+    sectionID: number | string,
+    rowID: number | string,
+    adjacentRowHighlighted: boolean
+  ) {
+    return (
+      <View
+        key={"SEP_" + sectionID + "_" + rowID}
+        style={[styles.listView.rowSeparator, adjacentRowHighlighted &&styles.listView.rowSeparatedHighlighted]}
+    );
+  },
 });
 
 module.exports = MediaListView;

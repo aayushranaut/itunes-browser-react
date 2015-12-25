@@ -19,5 +19,13 @@ module.exports = StyleSheet.create({
   },
   spinner: {
     width: 30
+  },
+  rowSeparator: {
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    height: 1,
+    marginLeft: 4,
+  },
+  rowSeparatedHighlighted: {
+      opacity: 0.0
   }
 });
