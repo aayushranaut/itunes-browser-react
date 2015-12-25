@@ -45,6 +45,13 @@ var MediaCell = React.createClass({
               <Text style={styles.mediaName} numberOfLines={1}>
                 {this.props.media.trackName || this.props.media.collectionName}
               </Text>
+              <Text style={styles.mediaDescription} numberOfLines={2}>
+                <Text style={styles.mediaYear}>
+                  {parseInt(this.props.media.releaseDate)}
+                </Text>
+                {" "}-{" "}
+                {this.props.media.longDescription || this.props.media.artistName}
+              </Text>
             </View>
           </View>
         </TouchableHighlight>
