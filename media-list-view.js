@@ -158,8 +158,20 @@ var MediaListView = React.createClass({
       <View
         key={"SEP_" + sectionID + "_" + rowID}
         style={[styles.listView.rowSeparator, adjacentRowHighlighted &&styles.listView.rowSeparatedHighlighted]}
+        
     );
   },
+
+  renderRow: function (
+    media: Object,
+    sectionID: number | string,
+    rowID: number | string,
+    highlightRowFunction: (sectionID: ?number | string, rowID: ?number | string) => void
+  ) {
+    return (
+      <Text>{media.trackName}</Text>
+    )
+  }
 });
 
 module.exports = MediaListView;
