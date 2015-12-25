@@ -27,5 +27,14 @@ module.exports = StyleSheet.create({
   },
   rowSeparatedHighlighted: {
       opacity: 0.0
+  },
+  emptyList: {
+    flex: 1,
+    backgroundColor: '#FFF',
+    alignItems: 'center'
+  },
+  emptyListText: {
+    marginTop: 80,
+    color: '#999'
   }
 });
