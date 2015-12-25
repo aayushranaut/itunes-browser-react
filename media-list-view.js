@@ -39,6 +39,48 @@ var SearchBar = React.createClass({
 });
 
 var MediaListView = React.createClass({
+  mixins: [TimerMixin],
+
+  timeoutID: (null: any),
+
+  _urlForQuery: function(query: string): string {
+    if(query) {
+      return API_URL + '?media=movie&term='+encodeURIComponent(query);
+    } else {
+      return API_URL + '?media=movie&term=mission+impossible';
+    }
+  },
+
+  searchMedia: function(query: string) {
+    this.timeoutID = null;
+
+    var cachedResultsForQuery = resultsCache.dataForQuery[query];
+    if(cachedResultsForQuery) {
+      if(!LOADING[query]) {
+        AlertIOS.alert('Numbers of results', cachedResults.dataForQuery.length + ' results');
+
+        return cachedResultsForQuery;
+      }
+    } else {
+      AlertIOS.alert('asd', 'f');
+      LOADING[query] = true;
+      resultsCache.dataForQuery[query] = null;
+
+      fetch(this._urlForQuery(query))
+        .then((response) => response.json())
+        .catch((error) => {
+          LOADING[query] = false;
+          resultsCache.dataForQuery[query] = undefined;
+        })
+        .then((responseData) => {
+          LOADING[query] = false;
+          resultsCache.dataForQuery[query] = responseData.results;
+
+          AlertIOS.alert('Numbers of results', responseData.resultCount + ' results');
+        });
+    }
+  },
+
   render: function() {
     return (
       <View style={styles.global.content}>
@@ -46,7 +88,8 @@ var MediaListView = React.createClass({
         onSearch={(event) => {
           var searchString = event.nativeEvent.text;
 
-          AlertIOS.alert('Searching for', searchString)
+          this.clearTimeout(this.timeoutID);
+          this.timeoutID = this.setTimeout(() => this.searchMedia(searchString), 100);
         }}
       />
         <Text>
