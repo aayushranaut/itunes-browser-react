@@ -12,6 +12,8 @@ var {
 } = React;
 var TimerMixin = require('react-timer-mixin');
 
+var MediaCell = require('./media-cell');
+
 var styles = require('./styles');
 
 var API_URL = 'https://itunes.apple.com/search';
@@ -138,6 +140,7 @@ var MediaListView = React.createClass({
           this.timeoutID = this.setTimeout(() => this.searchMedia(searchString), 1000);
         }}
       />
+      <View style={[styles.listView.seperator, {marginLeft: 0}]} />
         <ListView
           dataSource={this.state.resultsData}
           renderRow={this.renderRow}
@@ -169,7 +172,11 @@ var MediaListView = React.createClass({
     highlightRowFunction: (sectionID: ?number | string, rowID: ?number | string) => void
   ) {
     return (
-      <Text>{media.trackName}</Text>
+      <MediaCell
+        media={media}
+        onHighlight={() => highlightRowFunction(sectionID, rowID)}
+        onDeHighlight={() => highlightRowFunction(null, null)}
+      />
     )
   }
 });
