@@ -85,7 +85,7 @@ var MediaListView = React.createClass({
       if(!LOADING[query]) {
         this.setState({
           isLoading: false,
-          resultsData: cachedResultsForQuery
+          resultsData: this.getDataSource(cachedResultsForQuery)
         });
       }
       else {
@@ -160,7 +160,7 @@ var MediaListView = React.createClass({
     return (
       <View
         key={"SEP_" + sectionID + "_" + rowID}
-        style={[styles.listView.rowSeparator, adjacentRowHighlighted &&styles.listView.rowSeparatedHighlighted]}
+        style={[styles.listView.rowSeparator, adjacentRowHighlighted && styles.listView.rowSeparatedHighlighted]}
         />
     );
   },
