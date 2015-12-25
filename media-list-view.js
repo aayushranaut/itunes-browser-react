@@ -6,7 +6,8 @@ var {
   Text,
   View,
   TextInput,
-  AlertIOS
+  AlertIOS,
+  ActivityIndicatorIOS,
 } = React;
 var TimerMixin = require('react-timer-mixin');
 
@@ -31,7 +32,11 @@ var SearchBar = React.createClass({
           returnKeyType="search"
           enabledReturnKeyAutomatically={true}
           style={styles.listView.searchBarInput}
-          onEndEditing={this.props.onSearch}
+          onChange={this.props.onSearch}
+        />
+        <ActivityIndicatorIOS
+          animating={this.props.isLoading}
+          style={styles.listView.spinner}
         />
       </View>
     );
@@ -43,40 +48,67 @@ var MediaListView = React.createClass({
 
   timeoutID: (null: any),
 
+  getInitialState: function() {
+    return {
+      isLoading: false,
+      query: '',
+
+    };
+  },
   _urlForQuery: function(query: string): string {
-    if(query) {
+    if(query.length > 3) {
       return API_URL + '?media=movie&term='+encodeURIComponent(query);
-    } else {
-      return API_URL + '?media=movie&term=mission+impossible';
     }
   },
 
   searchMedia: function(query: string) {
     this.timeoutID = null;
 
+    this.setState({ query: query });
+
     var cachedResultsForQuery = resultsCache.dataForQuery[query];
     if(cachedResultsForQuery) {
       if(!LOADING[query]) {
-        AlertIOS.alert('Numbers of results', cachedResults.dataForQuery.length + ' results');
-
-        return cachedResultsForQuery;
+        this.setState({
+          isLoading: false,
+          resultsData: cachedResultsForQuery
+        });
+      }
+      else {
+        this.setState({
+          isLoading: true
+        });
       }
     } else {
-      AlertIOS.alert('asd', 'f');
+      var queryURL = this._urlForQuery(query);
+
+      if(!queryURL) return;
+
+      this.setState({
+        isLoading: true
+      });
+
       LOADING[query] = true;
       resultsCache.dataForQuery[query] = null;
 
-      fetch(this._urlForQuery(query))
+      fetch(queryURL)
         .then((response) => response.json())
         .catch((error) => {
           LOADING[query] = false;
           resultsCache.dataForQuery[query] = undefined;
+
+          this.setState({
+            isLoading: false
+          });
         })
         .then((responseData) => {
           LOADING[query] = false;
           resultsCache.dataForQuery[query] = responseData.results;
 
-          AlertIOS.alert('Numbers of results', responseData.resultCount + ' results');
+          this.setState({
+            isLoading: false,
+            resultsData: resultsCache.dataForQuery[query]
+          });
         });
     }
   },
@@ -85,11 +117,12 @@ var MediaListView = React.createClass({
     return (
       <View style={styles.global.content}>
       <SearchBar
+        isLoading={this.state.isLoading}
         onSearch={(event) => {
           var searchString = event.nativeEvent.text;
 
           this.clearTimeout(this.timeoutID);
-          this.timeoutID = this.setTimeout(() => this.searchMedia(searchString), 100);
+          this.timeoutID = this.setTimeout(() => this.searchMedia(searchString), 1000);
         }}
       />
         <Text>
