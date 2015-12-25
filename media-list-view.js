@@ -129,6 +129,29 @@ var MediaListView = React.createClass({
   },
 
   render: function() {
+    var content = null;
+
+    if (this.state.resultsData.getRowCount() == 0) {
+      var text = '';
+
+      if(!this.state.isLoading && this.state.query) {
+        text = 'No movies found for \'' + this.state.query + '\'.';
+      } else if (!this.state.isLoading) {
+        text = 'No movies found.';
+      }
+
+      content = <View style={styles.listView.emptyList}>
+        <Text style={styles.listView.emptyListText}>{text}</Text>
+      </View>;
+    } else {
+      content = <ListView
+        dataSource={this.state.resultsData}
+        renderRow={this.renderRow}
+        renderSeparator={this.renderSeparator}
+        automaticallyAdjustContentInsets={false}
+        keyboardDismissMode='on-drag'
+        />;
+    }
     return (
       <View style={styles.global.content}>
       <SearchBar
@@ -141,13 +164,7 @@ var MediaListView = React.createClass({
         }}
       />
       <View style={[styles.listView.seperator, {marginLeft: 0}]} />
-        <ListView
-          dataSource={this.state.resultsData}
-          renderRow={this.renderRow}
-          renderSeparator={this.renderSeparator}
-          automaticallyAdjustContentInsets={false}
-          keyboardDismissMode='on-drag'
-          />
+        {content}
       </View>
     );
   },
