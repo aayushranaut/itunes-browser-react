@@ -25,6 +25,19 @@ var styles = StyleSheet.create({
   },
   cellTextContainer: {
     flex: 1
+  },
+  mediaName: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  mediaDescription: {
+    fontSize: 12,
+    color: '#999',
+    flex: 1,
+  },
+  mediaYear: {
+    fontWeight: 'bold'
   }
 });
 
