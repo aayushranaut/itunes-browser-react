@@ -158,7 +158,7 @@ var MediaListView = React.createClass({
       <View
         key={"SEP_" + sectionID + "_" + rowID}
         style={[styles.listView.rowSeparator, adjacentRowHighlighted &&styles.listView.rowSeparatedHighlighted]}
-        
+        />
     );
   },
 
