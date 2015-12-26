@@ -28,20 +28,23 @@ var resultsCache = {
 var SearchBar = React.createClass({
   render: function() {
     return (
-      <View style={styles.listView.searchBar}>
-        <TextInput
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Search for media on iTunes..."
-          returnKeyType="search"
-          enabledReturnKeyAutomatically={true}
-          style={styles.listView.searchBarInput}
-          onChange={this.props.onSearch}
-        />
-        <ActivityIndicatorIOS
-          animating={this.props.isLoading}
-          style={styles.listView.spinner}
-        />
+      <View>
+        <View style={styles.listView.searchBar}>
+          <TextInput
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="Search for media on iTunes..."
+            returnKeyType="search"
+            enabledReturnKeyAutomatically={true}
+            style={styles.listView.searchBarInput}
+            onChange={this.props.onSearch}
+          />
+          <ActivityIndicatorIOS
+            animating={this.props.isLoading}
+            style={styles.listView.spinner}
+          />
+        </View>
+        <View style={styles.listView.rowSeparator}></View>
       </View>
     );
   }
