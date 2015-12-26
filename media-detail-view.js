@@ -41,12 +41,19 @@ var MediaDetailView = React.createClass({
             style={styles.mediaImage}
           />
           <View style={{flex: 1}}>
-            <Text style={styles.mediaGenre}>{item.primaryGenreName}</Text>
-            <Text style={styles.contentAdvisory}>{item.contentAdvisoryRating}</Text>
-          </View>
+            <View style={[styles.mainSection, {
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }]}>
+              <View>
+                <Text style={styles.mediaGenre}>{item.primaryGenreName}</Text>
+                <Text style={styles.contentAdvisory}>{item.contentAdvisoryRating}</Text>
+              </View>
+            </View>
           <View style={styles.seperator} />
-          {buyPrice}
-          {rentalPrice}
+            {buyPrice}
+            {rentalPrice}
+          </View>
         </View>
         <View style={styles.seperator} />
         <Text style={styles.sectionTitle}>Description</Text>
