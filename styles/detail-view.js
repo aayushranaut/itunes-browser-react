@@ -43,5 +43,24 @@ module.exports = StyleSheet.create({
   mediaPrice: {
     color: '#666',
     textAlign: 'right'
+  },
+  mediaGenre: {
+    fontStyle: 'italic',
+  },
+  contentAdvisory: {
+    fontFamily: 'Palatino',
+    fontWeight: '600',
+    fontSize: 16,
+    marginVertical: 4,
+  },
+  mediaImage: {
+    height: 100,
+    width: 100,
+    marginRight: 8,
+    resizeMode: 'contain',
+  },
+  mediaDescription: {
+    color: '#666',
+    textAlign: 'justify'
   }
 });
