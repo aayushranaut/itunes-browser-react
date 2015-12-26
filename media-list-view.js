@@ -204,7 +204,7 @@ var MediaListView = React.createClass({
 
   selectMediaItem: function(mediaItem) {
     this.props.navigator.push({
-      this: 'Media Details',
+      title: 'Media Details',
       component: MediaDetailView,
       passProps: {
         mediaItem: mediaItem
