@@ -16,6 +16,13 @@ var MediaDetailView = React.createClass({
   render: function() {
     var item = this.props.mediaItem;
 
+    var buyPrice = (item.trackHdPrice && item.trackPrice) ?
+      <View style={styles.mediaPriceRow}>
+        <Text style={styles.sectionTitle}>Buy</Text>
+        <Text style={styles.mediaPrice}>${item.trackHdPrice} (HD)</Text>
+        <Text style={styles.mediaPrice}>${item.trackPrice} (SD)</Text>
+      </View> : null;
+
     return (
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <Text style={styles.mediaTitle} numberOfLines={2}>
@@ -30,6 +37,9 @@ var MediaDetailView = React.createClass({
             <Text style={styles.mediaGenre}>{item.primaryGenreName}</Text>
             <Text style={styles.contentAdvisory}>{item.contentAdvisoryRating}</Text>
           </View>
+          <View style={styles.seperator} />
+          {buyPrice}
+          {rentalPrice}
         </View>
         <View style={styles.seperator} />
         <Text style={styles.sectionTitle}>Description</Text>
