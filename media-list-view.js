@@ -194,10 +194,15 @@ var MediaListView = React.createClass({
     return (
       <MediaCell
         media={media}
+        onSelect={() => this.selectMediaItem(media) }
         onHighlight={() => highlightRowFunction(sectionID, rowID)}
         onDeHighlight={() => highlightRowFunction(null, null)}
       />
     )
+  },
+
+  selectMediaItem: function(mediaItem) {
+    //TODO
   }
 });
 
