@@ -31,6 +31,9 @@ var MediaDetailView = React.createClass({
             <Text style={styles.contentAdvisory}>{item.contentAdvisoryRating}</Text>
           </View>
         </View>
+        <View style={styles.seperator} />
+        <Text style={styles.sectionTitle}>Description</Text>
+        <Text style={styles.mediaDescription}>{item.longDescription}</Text>
       </ScrollView>
     );
   }
