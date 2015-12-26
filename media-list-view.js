@@ -13,6 +13,7 @@ var {
 var TimerMixin = require('react-timer-mixin');
 
 var MediaCell = require('./media-cell');
+var MediaDetailView = require('./media-detail-view');
 
 var styles = require('./styles');
 
@@ -202,7 +203,13 @@ var MediaListView = React.createClass({
   },
 
   selectMediaItem: function(mediaItem) {
-    //TODO
+    this.props.navigator.push({
+      this: 'Media Details',
+      component: MediaDetailView,
+      passProps: {
+        mediaItem: mediaItem
+      }
+    });
   }
 });
 
