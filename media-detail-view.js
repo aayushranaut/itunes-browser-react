@@ -10,10 +10,18 @@ var {
   View,
 } = React;
 
+var styles = require('./styles').detailView;
+
 var MediaDetailView = React.createClass({
   render: function() {
+    var item = this.props.mediaItem;
+
     return (
-      <View></View>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <Text style={styles.mediaTitle} numberOfLines={2}>
+          {item.trackName}
+        </Text>
+      </ScrollView>
     );
   }
 });
