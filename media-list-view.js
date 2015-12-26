@@ -117,8 +117,11 @@ var MediaListView = React.createClass({
           });
         })
         .then((responseData) => {
+          return responseData.results.filter((e) => e.wrapperType !== 'collection');
+        })
+        .then((responseData) => {
           LOADING[query] = false;
-          resultsCache.dataForQuery[query] = responseData.results;
+          resultsCache.dataForQuery[query] = responseData;
 
           this.setState({
             isLoading: false,
