@@ -8,6 +8,7 @@ var {
   Text,
   TouchableHighlight,
   View,
+  LinkingIOS,
 } = React;
 
 var styles = require('./styles').detailView;
@@ -58,6 +59,14 @@ var MediaDetailView = React.createClass({
         <View style={styles.seperator} />
         <Text style={styles.sectionTitle}>Description</Text>
         <Text style={styles.mediaDescription}>{item.longDescription}</Text>
+        <View style={styles.seperator} />
+        <TouchableHighlight
+          onPress={() => LinkingIOS.openURL(item.trackViewUrl)}
+        >
+          <Text style={styles.iTunesButton}>
+            View in iTunes
+          </Text>
+        </TouchableHighlight>
       </ScrollView>
     );
   }
